@@ -6,7 +6,8 @@ $result = mysqli_query($conn, $sql);
 $list = '';
 while($row = mysqli_fetch_array($result)){
   //<li><a href=\"index.php?id=19\">MySQL</a></li>
-  $list = $list."<li><a href=\"index.php?id={$row['id']}\">{$row['title']}</a></li>";
+  $escaped_title = htmlspecialchars($row['title']);
+  $list = $list."<li><a href=\"index.php?id={$row['id']}\">{$escaped_title}</a></li>";
 }
 
 // 기본값
@@ -15,11 +16,12 @@ $article = array(
   'description'=>'Hello, Web'
 );
 if(isset($_GET['id'])){
-  $sql2 = "SELECT * FROM topic WHERE id={$_GET['id']}";
+  $filtered_id = mysqli_real_escape_string($conn, $_GET['id']);
+  $sql2 = "SELECT * FROM topic WHERE id={$filtered_id}";
   $result2 = mysqli_query($conn, $sql2);
   $row2 = mysqli_fetch_array($result2);
-  $article ['title'] = $row2['title'];
-  $article ['description'] = $row2['description'];
+  $article ['title'] = htmlspecialchars($row2['title']);
+  $article ['description'] = htmlspecialchars($row2['description']);
 }
 
 ?>

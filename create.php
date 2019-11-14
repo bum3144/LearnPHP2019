@@ -15,6 +15,7 @@ $article = array(
   'description'=>'Hello, Web'
 );
 if(isset($_GET['id'])){
+  $filtered_id = mysqli_real_escape_string($conn, $_GET['id']);
   $sql2 = "SELECT * FROM topic WHERE id={$_GET['id']}";
   $result2 = mysqli_query($conn, $sql2);
   $row2 = mysqli_fetch_array($result2);
